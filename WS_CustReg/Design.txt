@@ -1,0 +1,76 @@
+Front End:
+
+===========
+Spring-Boot (web, devtools, MongoDB)
+
+GroupId = com.customermanagement
+ArtifactId = customer-registration
+
+-------
+Customer.java
+
+-----------------
+CustomerController.java
+ 1. New Customer registration:
+    saveCustomerDetails()
+     name, address, email, photo
+ 
+ 2. Edit profile
+    editCustomerDetails()
+      Add picture
+      Add/modify email, contact# address etc..
+      Add family members.
+
+---------------
+CustomerService.java
+CustomerServiceImpl.java 
+ 1. New Customer registration:
+     saveCustomerDetails()
+       name, address, email, photo
+ 
+ 2. Edit profile
+    editCustomerDetails()
+      Add picture
+      Add/modify email, contact# address etc..
+      Add family members.
+
+-----------------	
+CustomerRepository.java extends MongoRepository
+
+  
+========
+Data store: MongoDB
+port=27017
+
+application.properties
+#mongodb
+spring.data.mongodb.host=localhost
+spring.data.mongodb.port=27017
+spring.data.mongodb.database=CustomerDatabase
+
+#logging
+logging.level.org.springframework.data=debug
+logging.level=error
+
+-------------------------
+Create Database = CustomerDatabase
+  >use CustomerDatabase
+
+
+db.customer.insert(db.customer.insert({"custId":"1","name":"Bhushan","address":"Mumbai","email":"test.com"}))
+
+
+Create Collection = customer
+  >db.customer.insert(db.customer.insert({"custid":"1"},{"name" : "akshay"}, {"address":"mumbai"}, {"email":"akshay@gmail.com"}))
+
+SELECT
+  >db.customer.find().pretty()
+  
+====================
+http://localhost:8080/customer/save
+  {"custId":"1","name":"Akshay","address":"Mumbai","email":"myemail"} 
+
+http://localhost:8080/customer/edit
+  {"custId":"2","name":"Sachin","address":"NewMumbai","email":"Newmyemail"}
+
+

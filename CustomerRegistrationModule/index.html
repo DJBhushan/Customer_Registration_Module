@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Login and Registration Module</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <link rel="stylesheet" type="text/css" href="css/demo.css" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" type="text/css" href="css/animate-custom.css" />
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Login and Registration Module</span></h1>
+			</header>
+            <section>				
+                <div id="container_demo" >
+                    <a class="hiddenanchor" id="toregister"></a>
+                    <a class="hiddenanchor" id="tologin"></a>
+                    <div id="wrapper">
+					
+						<div id="tologinSuccess" class="animate form">                          
+                        </div>
+						
+                        <div id="login" class="animate form">
+                            <form  action="" autocomplete="on" id="loginForm" method="POST" enctype='application/json'> 
+                                <h1>Log in</h1> 
+                                <p> 
+                                    <label for="username" class="uname" data-icon="u" > Your email or username </label>
+                                    <input id="username" name="username" required="required" type="text" placeholder="myusername or mymail@mail.com"/>
+                                </p>
+                                <p> 
+                                    <label for="password" class="youpasswd" data-icon="p"> Your password </label>
+                                    <input id="password" name="password" required="required" type="password" placeholder="eg. X8df!90EO" /> 
+                                </p>
+                                <p class="login button"> 
+                                    <input type="submit"  onclick="submitform()" value="Login" /> 
+								</p>
+                                <p class="change_link">
+									<a href="#toregister" class="to_register">Registration</a>
+								</p>
+                            </form>
+                        </div>
+
+                        <div id="register" class="animate form">
+                            <form  action="" id="customerRegisterForm" autocomplete="on" method="POST" enctype='application/json'> 
+                                <h1> Registration </h1> 
+                                <p> 
+                                    <label for="usernamesignup" class="uname" data-icon="u">Name </label>
+                                    <input id="usernamesignup" name="name" required="required" type="text" placeholder="Name" />
+                                </p>
+                                <p> 
+                                    <label for="emailsignup" class="email" data-icon="e" >Email </label>
+                                    <input id="emailsignup" name="email" required="required" type="email" placeholder="Email"/> 
+                                </p>
+								 <p> 
+                                    <label for="contact" class="contact_number" data-icon="e" >Contact </label>
+                                    <input id="contact" name="contact" required="required" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="eg: 123-456-7890"/> 
+                                </p>
+								 <p> 
+                                    <label for="address" class="home_address" data-icon="e" >Address </label>
+                                    <input id="address" name="address" required="required" type="text" placeholder="Address"/> 
+                                </p>
+                                <p> 
+                                    <label for="passwordsignup" class="password" data-icon="p">Password </label>
+                                    <input id="passwordsignup" name="password" required="required" type="password" placeholder="Password"/>
+                                </p>
+                                <p class="signin button"> 
+									<input type="submit" onclick="submitform()" value="Register"/> 
+								</p>
+                                <p class="change_link">  
+									Already a customer ?
+									<a href="#tologin" class="to_register"> log in </a>
+								</p>
+                            </form>
+                        </div>
+						
+                    </div>
+                </div>  
+            </section>
+        </div>
+		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+		<script type="application/javascript">
+			function submitform()
+			{
+				$.fn.serializeObject = function()
+				{
+					var o = {};
+					var a = this.serializeArray();
+					$.each(a, function() {
+						if (o[this.name] !== undefined) {
+							if (!o[this.name].push) {
+								o[this.name] = [o[this.name]];
+							}
+							o[this.name].push(this.value || '');
+						} else {
+							o[this.name] = this.value || '';
+						}
+					});
+					return o;
+				};
+
+				$(function() {
+					$('#customerRegisterForm').submit(function() {
+						var formData = JSON.stringify($('#customerRegisterForm').serializeObject());
+						console.log("Data---" + formData);
+						$.ajax({
+							  type: "POST",
+							  url: "http://localhost:8080/customer/save",
+							  data: formData,
+							  success: function(){
+								console.log("Data Saved.");
+							  },
+							  dataType: "json",
+							  contentType : "application/json"
+						});
+						return false;
+					});
+				});
+				
+				/*$(function() {
+					$('#updateProfileForm').submit(function() {
+						var updateFormData = JSON.parse(JSON.stringify($('#updateProfileForm').serializeObject()));
+						$.ajax({
+							  type: "POST",
+							  url: "http://localhost:8080/customer/save",
+							  data: updateFormData,
+							  success: function(msg){
+								$("#tologinSuccess").css("display", "blcok");
+								alert("Update Success!");
+								$( "#tologinSuccess" ).append('<h1>Log Success</h1> <br/> Welcome ' +custData.name+'<br/> <p>Name:'+custData.name+' </p><p>Email: '+custData.email+' </p><p>Contact: '+custData.contact+' </p><p>Address: '+custData.address+'</p></p><p>Address: '+custData.family+'</p>');
+							  },
+							  error: function() { 
+								alert("Update Failed!"); 
+							  },
+							  dataType: "json",
+							  contentType : "application/json"
+						});
+						return false;
+					});
+				});
+					<form  action="" id="updateProfileForm" autocomplete="on" method="POST" enctype='application/json'> <input type="submit" onclick="submitform()" value="Update Profile"/></form>
+				*/
+				
+				$(function() {
+					$('#loginForm').submit(function() {
+					console.log("Login check");
+						var formData = JSON.parse(JSON.stringify($('#loginForm').serializeObject()));
+						console.log("Data---" + formData.username);
+						$.ajax({
+							  type: "POST",
+							  url: "http://localhost:8080/customer/email/" + formData.username,
+							  data: formData,
+							  success: function(msg){
+							  console.log("data===>" + msg.password);
+							  var custData = msg; 
+								if(custData.password == formData.password)
+								{
+									$("#register, #login").css("display", "none");
+									$("#tologinSuccess").css("display", "blcok");
+									alert("login Success!");
+									$( "#tologinSuccess" ).append('<h1>Log-In Success</h1> <br/> Welcome ' +custData.name+'<br/> <p>Name:'+custData.name+' </p><p>Email: '+custData.email+' </p><p>Contact: '+custData.contact+' </p><p>Address: '+custData.address+'</p>');
+								}
+							    else{
+									alert("Incorrect Credentials!");
+								}
+							},
+							  error: function() { 
+									alert("Username doesn't exist!"); 
+							  },
+							  dataType: "json",
+							  contentType : "application/json"
+						});
+						return false;
+					});
+				});
+				
+				
+				
+				/**/
+			}
+		</script>
+    </body>
+</html>

@@ -1,0 +1,17 @@
+package com.customermanagement.customerregistration.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import com.customermanagement.customerregistration.entity.Customer;
+
+public interface CustomerService
+{
+	public List<Customer> getListOfCustomer();
+	
+	public Customer saveCustomerDetails(Customer c);
+	
+	public String editCustomerDetails();
+	
+	public Customer getCustomerByEmail(String emailId);
+}
